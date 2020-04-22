@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: config
+  cloud:
+    sentinel:
+      transport:
+        dashboard: 127.0.0.1:8080
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        file-extension: yml
+        #Group实现
+        #group: @spring.profiles.active@
+        #namespace 实现
+  #        namespace: @spring.profiles.active@
+  #  使用Data ID与profiles实现
+  profiles:
+    active: @spring.profiles.active@
+server:
+  port: 8003

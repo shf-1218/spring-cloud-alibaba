@@ -1,5 +1,6 @@
 package com.yoyi.consumer.controller;
 
+import com.yoyi.consumer.crossserver.ProviderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -19,6 +20,8 @@ public class TestController {
     private LoadBalancerClient loadBalancerClient;
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private ProviderService providerService;
 
     /*
      * RestTemplate 请求
@@ -32,10 +35,11 @@ public class TestController {
         String result = restTemplate.getForObject(url, String.class);
         return "Invoke : " + url + ", return : " + result;
     }
+
     /*
-    *
-    *RestTemplate增强请求
-    */
+     *
+     *RestTemplate增强请求
+     */
     @GetMapping("restTest")
     public String restTest() {
         String result = restTemplate.getForObject("http://provider/hello?name=didi",
@@ -43,4 +47,12 @@ public class TestController {
         return "Return : " + result;
     }
 
+    /*
+     * Feign请求
+     */
+    @GetMapping("/feignTest")
+    public String feignTest() {
+        String result = providerService.hello("didi");
+        return "Return : " + result;
+    }
 }
