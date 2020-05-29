@@ -13,6 +13,7 @@ import com.yoyi.gatewayserver.entity.PredicateEntity;
 import com.yoyi.gatewayserver.entity.RouteEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.event.RefreshRoutesEvent;
 import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
@@ -46,12 +47,16 @@ public class DynamicRoutingConfig implements ApplicationEventPublisherAware {
     private RouteDefinitionWriter routeDefinitionWriter;
 
     private ApplicationEventPublisher applicationEventPublisher;
+    @Value("${spring.cloud.nacos.server-addr}")
+    private String serverAddr;
+    @Value("${spring.cloud.nacos.config.namespace}")
+    private String namespace;
 
     @Bean
     public void refreshRouting() throws NacosException {
         Properties properties = new Properties();
-        properties.put(PropertyKeyConst.SERVER_ADDR, "localhost:8848");
-//        properties.put(PropertyKeyConst.NAMESPACE, "8282c713-da90-486a-8438-2a5a212ef44f");
+        properties.put(PropertyKeyConst.SERVER_ADDR, serverAddr);
+        properties.put(PropertyKeyConst.NAMESPACE, namespace);
         ConfigService configService = NacosFactory.createConfigService(properties);
         configService.addListener(DATA_ID, Group, new Listener() {
             @Override
