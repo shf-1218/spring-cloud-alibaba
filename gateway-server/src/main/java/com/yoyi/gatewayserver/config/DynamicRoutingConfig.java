@@ -40,14 +40,14 @@ import java.util.concurrent.Executor;
 @Component
 public class DynamicRoutingConfig implements ApplicationEventPublisherAware {
 
-    private static final String DATA_ID = "gateway-refresh-dev";
+    private static final String DATA_ID = "gateway-refresh";
     private static final String Group = "ROUTE_GROUP";
 
     @Autowired
     private RouteDefinitionWriter routeDefinitionWriter;
 
     private ApplicationEventPublisher applicationEventPublisher;
-    @Value("${spring.cloud.nacos.server-addr}")
+    @Value("${spring.cloud.nacos.discovery.server-addr}")
     private String serverAddr;
     @Value("${spring.cloud.nacos.config.namespace}")
     private String namespace;
@@ -56,7 +56,7 @@ public class DynamicRoutingConfig implements ApplicationEventPublisherAware {
     public void refreshRouting() throws NacosException {
         Properties properties = new Properties();
         properties.put(PropertyKeyConst.SERVER_ADDR, serverAddr);
-        properties.put(PropertyKeyConst.NAMESPACE, namespace);
+//        properties.put(PropertyKeyConst.NAMESPACE, namespace);
         ConfigService configService = NacosFactory.createConfigService(properties);
         configService.addListener(DATA_ID, Group, new Listener() {
             @Override

@@ -4,20 +4,20 @@ server:
 spring:
   application:
     name: gateway-server
+  profiles:
+    active: @spring.profiles.active@
   cloud:
     nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
+      config:
+        file-extension: yml
     sentinel:
-      transport:
-        dashboard: 127.0.0.1:8080
       eager: true #心跳启动
       datasource:
         # 名称随意
         flow:
           nacos:
             server-addr: localhost:8848
-            dataId: ${spring.application.name}-flow-rules
+            dataId: ${spring.application.name}-${spring.profiles.active}-flow-rules
             groupId: SENTINEL_GROUP
             # 规则类型，取值见：
             # org.springframework.cloud.alibaba.sentinel.datasource.RuleType
@@ -25,25 +25,25 @@ spring:
         degrade:
           nacos:
             server-addr: localhost:8848
-            dataId: ${spring.application.name}-degrade-rules
+            dataId: ${spring.application.name}-${spring.profiles.active}-degrade-rules
             groupId: SENTINEL_GROUP
             rule-type: degrade
         system:
           nacos:
             server-addr: localhost:8848
-            dataId: ${spring.application.name}-system-rules
+            dataId: ${spring.application.name}-${spring.profiles.active}-system-rules
             groupId: SENTINEL_GROUP
             rule-type: system
         authority:
           nacos:
             server-addr: localhost:8848
-            dataId: ${spring.application.name}-authority-rules
+            dataId: ${spring.application.name}-${spring.profiles.active}-authority-rules
             groupId: SENTINEL_GROUP
             rule-type: authority
         param-flow:
           nacos:
             server-addr: localhost:8848
-            dataId: ${spring.application.name}-param-flow-rules
+            dataId: ${spring.application.name}-${spring.profiles.active}-param-flow-rules
             groupId: SENTINEL_GROUP
             rule-type: param-flow
     gateway:

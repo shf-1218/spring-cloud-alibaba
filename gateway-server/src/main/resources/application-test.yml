@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        namespace: 17baf6a4-4c68-484e-a501-7d8b3fd3e795
+    sentinel:
+      transport:
+        dashboard: 127.0.0.1:8080
