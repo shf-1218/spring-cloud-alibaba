@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: 17baf6a4-4c68-484e-a501-7d8b3fd3e795
+      config:
+        file-extension: yml
+        #Group实现
+        #group: @spring.profiles.active@
+        #namespace 实现
+        namespace: 17baf6a4-4c68-484e-a501-7d8b3fd3e795
+        #使用Data ID与profiles实现
