@@ -4,6 +4,8 @@ package com.yoyi.gatewayserver.exception;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.callback.GatewayCallbackManager;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.util.function.Supplier;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -75,7 +77,10 @@ public class JsonSentinelGatewayBlockExceptionHandler implements WebExceptionHan
      */
     public Mono<Void> writeResponse(ServerResponse serverWebExchange, ServerWebExchange exchange) {
         ServerHttpResponse serverHttpResponse = exchange.getResponse();
-        return unAuth(serverHttpResponse, "访问的人太多了，请稍后再试！");
+        JSONObject msgJson=JSON.parseObject("{}");
+        msgJson.put("code","403");
+        msgJson.put("msg","限流访问的人太多了，请稍后再试！了");
+        return unAuth(serverHttpResponse, msgJson.toJSONString());
     }
 
     private Mono<Void> unAuth(ServerHttpResponse resp, String msg) {

@@ -49,8 +49,8 @@ public class DynamicRoutingConfig implements ApplicationEventPublisherAware {
     private ApplicationEventPublisher applicationEventPublisher;
     @Value("${spring.cloud.nacos.discovery.server-addr}")
     private String serverAddr;
-    @Value("${spring.cloud.nacos.config.namespace}")
-    private String namespace;
+//    @Value("${spring.cloud.nacos.config.namespace}")
+//    private String namespace;
 
     @Bean
     public void refreshRouting() throws NacosException {
